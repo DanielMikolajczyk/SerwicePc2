@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Departament;
-use App\Models\Permission;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +18,11 @@ class DatabaseSeeder extends Seeder
           RoleSeeder::class,
           PermissionSeeder::class,
           UserSeeder::class,
+          ClientTypeSeeder::class,
+          ClientSeeder::class,
+          OrderStatusSeeder::class,
+          OrderTypeSeeder::class,
+          OrderSeeder::class,
         ]);
     }
 }
