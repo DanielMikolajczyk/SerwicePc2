@@ -19,9 +19,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->string('phone_number');
+            $table->unsignedBigInteger('actual_departament');
+            $table->foreignId('departament_id')->constrained();
+            $table->foreignId('role_id')->constrained();
             $table->timestamps();
-        });
+
+            $table->foreign('actual_departament')->references('id')->on('departaments');
+          });
     }
 
     /**
