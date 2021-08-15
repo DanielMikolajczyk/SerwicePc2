@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\OrderType;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
@@ -34,10 +35,11 @@ class OrderFactory extends Factory
         'order_type_id' => $types->random(),
         'serial_number' => $this->faker->word,
         'part_number' => $this->faker->word,
-        'code' => $this->faker->word,
+        'code' => $this->faker->boolean() ? 'B12' : 'D123',
         'manufacturer' => $this->faker->word,
         'model' => $this->faker->word,
         'paid' => $this->faker->boolean(),
+        'deadline' => Carbon::now()->addDays(rand(1,60))
       ];
     }
 }

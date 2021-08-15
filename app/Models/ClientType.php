@@ -19,4 +19,9 @@ class ClientType extends Model
     {
       return $this->hasMany(Client::class);
     }
+
+    public function getTypeAttribute($value)
+    {
+      return ucfirst($value);
+    }
 }

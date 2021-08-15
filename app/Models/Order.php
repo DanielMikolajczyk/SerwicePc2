@@ -12,7 +12,8 @@ class Order extends Model
     protected $fillable = [
       'client_id', 'status_id','order_type_id',
       'serial_number', 'part_number', 'code',
-      'manufacturer', 'model', 'paid'
+      'manufacturer', 'model', 'paid',
+      'deadline'
     ];
 
     public function client()
@@ -29,4 +30,6 @@ class Order extends Model
     {
       return $this->belongsTo(OrderType::class);
     }
+
+    
 }

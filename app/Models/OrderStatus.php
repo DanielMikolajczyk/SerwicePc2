@@ -19,4 +19,9 @@ class OrderStatus extends Model
     {
       return $this->hasMany(Order::class);
     }
+
+    public function getStatusAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }

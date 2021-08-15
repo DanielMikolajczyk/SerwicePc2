@@ -24,6 +24,7 @@ class CreateOrdersTable extends Migration
           $table->string('manufacturer')->nullable();
           $table->string('model');
           $table->boolean('paid');
+          $table->date('deadline');
           $table->timestamps();
 
           $table->foreign('status_id')->references('id')->on('order_statuses');

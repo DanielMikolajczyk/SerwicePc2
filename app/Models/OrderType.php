@@ -19,4 +19,9 @@ class OrderType extends Model
     {
       return $this->hasMany(Order::class);
     }
+
+    public function getTypeAttribute($value)
+    {
+      return ucwords($value);
+    }
 }
