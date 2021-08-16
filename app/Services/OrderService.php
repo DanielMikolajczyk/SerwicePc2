@@ -10,7 +10,7 @@ class OrderService
   public function create(array $data): Order
   {
     $orderCode = $this->generateOrderCode();
-    $orderTypeId = $this->getOrderTypeIdByName($data['type']);
+    $orderTypeId = $this->getOrderTypeIdByName($data['type_id']);
 
     return Order::create($data + [
       'order_type_id' => $orderTypeId,
@@ -18,6 +18,11 @@ class OrderService
       'status_id'     => 1,
       'paid'          => 0
     ]);
+  }
+
+  public function update(array $data, Order $order)
+  {
+    $order->update($data);
   }
     
   public function getOrderTypeIdByName(string $type): int

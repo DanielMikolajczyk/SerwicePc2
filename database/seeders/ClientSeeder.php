@@ -17,7 +17,7 @@ class ClientSeeder extends Seeder
     {
       $clientTypes = ClientType::all();
       Client::factory(20)->create()->each(function ($client) use ($clientTypes){
-        $client->update(['client_type_id' => $clientTypes->random()->id]);
+        $client->update(['type_id' => $clientTypes->random()->id]);
       });
     }
 }

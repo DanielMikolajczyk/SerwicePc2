@@ -10,7 +10,7 @@ class OrderStatus extends Model
     use HasFactory;
 
     protected $fillable = [
-      'status', 'description'
+      'name', 'description'
     ];
 
     public $timestamps = false;
@@ -20,7 +20,7 @@ class OrderStatus extends Model
       return $this->hasMany(Order::class);
     }
 
-    public function getStatusAttribute($value)
+    public function getNameAttribute($value)
     {
         return ucfirst($value);
     }

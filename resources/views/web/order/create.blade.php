@@ -22,11 +22,13 @@
                     <label class="text-gray-600 block">
                       Typ zamówienia
                     </label>
-                    <select name="order[type]"
-                      class="mt-1 border border-gray-300 @error('order.type') border-red-600 @enderror @error('order.type') border-red-600 @enderror rounded p-1 w-96">
-                      <option value="{{ old('order.type') }}">{{ old('order.type') }}</option>
+                    <select name="order[type_id]"
+                      class="mt-1 border border-gray-300 @error('order.type_id') border-red-600 @enderror @error('order.type') border-red-600 @enderror rounded p-1 w-96">
+                      <option value=""></option>
                       @foreach ($orderTypes as $type)
-                        <option value="{{ $type->type }}">{{ $type->type }}</option>
+                        <option value="{{ $type->id }}" @if(old('order.type_id') === $type->id) selected @endif>
+                          {{ $type->type }}
+                        </option>
                       @endforeach
                     </select>
                     @error('order.type')
@@ -98,8 +100,8 @@
                   <div class="mb-4">
                     <label class="text-gray-600 block">Wygląd urządzenia</label>
                     <textarea name="order[visual_description]" class="w-96 border border-gray-300 @error('order.visual_description') border-red-600 @enderror mt-1 rounded p-1 h-40">
-                                  {{ old('order.visual_description') }}
-                                </textarea>
+                      {{ old('order.visual_description') }}
+                    </textarea>
                     @error('order.visual_description')
                       <div class="text-red-600 text-sm my-2">
                         <span class="font-medium">{{ $message }}</span>
@@ -109,8 +111,8 @@
                   <div class="mb-4">
                     <label class="text-gray-600 block">Opis usterki</label>
                     <textarea name="order[issue_description]" class="w-96 border border-gray-300 @error('order.issue_description') border-red-600 @enderror mt-1 rounded p-1 h-40">
-                                  {{ old('order.issue_description') }}
-                                </textarea>
+                      {{ old('order.issue_description') }}
+                    </textarea>
                     @error('order.issue_description')
                       <div class="text-red-600 text-sm my-2">
                         <span class="font-medium">{{ $message }}</span>
@@ -186,10 +188,12 @@
                     <label class="text-gray-600 block" for="client_type">
                       Typ klienta
                     </label>
-                    <select name="client[type]" class="mt-1 border border-gray-300 @error('client.type') border-red-600 @enderror rounded p-1 w-96">
-                      <option value="{{ old('client.type') }}">{{ old('client.type') }}</option>
+                    <select name="client[type_id]" class="mt-1 border border-gray-300 @error('client.type') border-red-600 @enderror rounded p-1 w-96">
+                      <option value="{{ old('client.type_id') }}">{{ old('client.type_id') }}</option>
                       @foreach ($clientTypes as $type)
-                        <option value="{{ $type->type }}">{{ $type->type }}</option>
+                        <option value="{{ $type->type }}" @if(old('client.type_id') === $type->id) selected @endif>
+                          {{ $type->type }}
+                        </option>
                       @endforeach
                     </select>
                     @error('client.type')
@@ -209,9 +213,9 @@
                   <div class="mb-4">
                     <label class="text-gray-600 block">Komentarz</label>
                     <textarea name="order[comment]" class="w-96 border border-gray-300 @error('order.comment') border-red-600 @enderror mt-1 rounded p-1 h-40">
-                                  {{ old('order.comment') }}
-                                </textarea>
-                    @error('client.comment')
+                      {{ old('order.comment') }}
+                    </textarea>
+                    @error('order.comment')
                       <div class="text-red-600 text-sm my-2">
                         <span class="font-medium">{{ $message }}</span>
                       </div>

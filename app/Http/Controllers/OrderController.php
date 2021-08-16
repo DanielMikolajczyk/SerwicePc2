@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Requests\ValidateOrderWithClientRequest;
 use App\Models\ClientType;
 use App\Models\Order;
@@ -13,13 +14,13 @@ use App\Services\ClientService;
 
 class OrderController extends Controller
 {
-  public $orderService;
-  public $clientService;
+  protected $orderService;
+  protected $clientService;
 
   public function __construct(OrderService $orderService, ClientService $clientService)
   {
-    $this->orderService = $orderService;
-    $this->clientService = $clientService;
+    $this->orderService   = $orderService;
+    $this->clientService  = $clientService;
   }
 
   public function index(): View
@@ -39,6 +40,7 @@ class OrderController extends Controller
 
   public function store(ValidateOrderWithClientRequest $request): RedirectResponse
   {
+    $this->clientService->create($request->validated()['client']);
     $client = $this->clientService->create($request->validated()['client']);
     $this->orderService->create($request->validated()['order'] + ['client_id' => $client->id]);
 
@@ -55,7 +57,16 @@ class OrderController extends Controller
   public function edit(Order $order): View
   {
     return view('web/order/edit', [
-      'order' => $order
+      'order'       => $order,
+      'orderTypes'  => OrderType::all(),
     ]);
   }
+
+  public function update(UpdateOrderRequest $request, Order $order): RedirectResponse
+  {
+    $this->orderService->update($request->validated(), $order);
+
+    return redirect()->route('order.index');
+  }
+
 }

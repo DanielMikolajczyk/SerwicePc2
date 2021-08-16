@@ -42,10 +42,10 @@
                                   <span>{{$order->updated_at}}</span>
                               </td>
                               <td class="py-3 px-4 text-center">
-                                <span>{{$order->orderStatus->status}}</span>
+                                <span>{{$order->status->name}}</span>
                               </td>
                               <td class="py-3 px-4 text-center">
-                                <span>{{$order->orderType->type}}</span>
+                                <span>{{$order->type->name}}</span>
                               </td>
                               <td class="py-3 px-4 text-center">
                                 <span>{{$order->client->first_name}} {{$order->client->last_name}}</span>

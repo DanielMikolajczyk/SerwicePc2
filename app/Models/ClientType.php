@@ -10,7 +10,7 @@ class ClientType extends Model
     use HasFactory;
 
     protected $fillable = [
-      'type', 'description'
+      'name', 'description'
     ];
 
     public $timestamps = false;
@@ -20,7 +20,7 @@ class ClientType extends Model
       return $this->hasMany(Client::class);
     }
 
-    public function getTypeAttribute($value)
+    public function getNameAttribute($value)
     {
       return ucfirst($value);
     }

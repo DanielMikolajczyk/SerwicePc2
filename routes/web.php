@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
+use App\Models\Client;
+use App\Models\ClientType;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,13 @@ use App\Http\Controllers\OrderController;
 */
 
 Route::resource('order', OrderController::class);
+
+Route::get('/test', function(){
+  $clients = Client::with('clientType')->get();
+  foreach($clients as $client){
+    echo $client->clientType->id . '</br>';
+  }
+});
 
 Route::get('/', function () {
     return view('web/layouts/master');

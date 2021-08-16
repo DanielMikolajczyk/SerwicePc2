@@ -4,19 +4,24 @@ namespace App\Services;
 
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Repositories\ClientRepository;
 
 class ClientService
 {
+  protected $clientRepository;
+
+  public function __construct(ClientRepository $clientRepository)
+  {
+    $this->clientRepository = $clientRepository;
+  }
+
   public function create(array $data): Client
   {
-    $clientTypeId = $this->getClientTypeIdByName($data['type']);
+    $client = Client::with('clientType')->get();
+    dd($client->clientType);
     return Client::create(
-      $data + ['client_type_id' => $clientTypeId]
+      $data 
     );
   }
 
-  public function getClientTypeIdByName(string $type): int
-  {
-    return ClientType::where('type', $type)->pluck('id')->first();
-  }
 }

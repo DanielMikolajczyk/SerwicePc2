@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
           $table->id();
           $table->foreignId('client_id')->constrained();
           $table->unsignedBigInteger('status_id');
-          $table->foreignId('order_type_id')->constrained();
+          $table->unsignedBigInteger('type_id');
           $table->string('serial_number');
           $table->string('part_number');
           $table->string('code');
@@ -25,8 +25,11 @@ class CreateOrdersTable extends Migration
           $table->string('model');
           $table->boolean('paid');
           $table->date('deadline');
+          $table->text('issue_description');
+          $table->text('visual_description');
           $table->timestamps();
 
+          $table->foreign('type_id')->references('id')->on('order_types');
           $table->foreign('status_id')->references('id')->on('order_statuses');
         });
     }

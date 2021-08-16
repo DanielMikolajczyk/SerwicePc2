@@ -12,7 +12,7 @@ class Client extends Model
   protected $fillable = [
     'first_name', 'middle_name', 'last_name',
     'phone_number', 'email', 'address',
-    'description', 'client_type_id'
+    'description', 'type_id'
   ];
 
   public function orders()
@@ -20,7 +20,7 @@ class Client extends Model
     return $this->hasMany(Order::class);
   }
 
-  public function clientType()
+  public function type()
   {
     return $this->belongsTo(ClientType::class);
   }
