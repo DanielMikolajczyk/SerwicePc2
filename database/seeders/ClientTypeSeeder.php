@@ -17,13 +17,13 @@ class ClientTypeSeeder extends Seeder
     {
       $faker = Faker::create();
 
-      $clientTypes = [
+      $typesNames = [
         'miły', 'kłótliwy', 'sympatyczy', 'problematyczny'
       ];
 
-      foreach($clientTypes as $type){
+      foreach($typesNames as $name){
         ClientType::create([
-          'type' => $type,
+          'name'        => $name,
           'description' => $faker->sentences(4,true)
         ]);
       }

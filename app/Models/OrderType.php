@@ -10,7 +10,7 @@ class OrderType extends Model
     use HasFactory;
 
     protected $fillable = [
-      'type', 'description'
+      'name', 'description'
     ];
 
     public $timestamps = false;
@@ -18,5 +18,10 @@ class OrderType extends Model
     public function orders()
     {
       return $this->hasMany(Order::class);
+    }
+
+    public function getNameAttribute($value)
+    {
+      return ucwords($value);
     }
 }

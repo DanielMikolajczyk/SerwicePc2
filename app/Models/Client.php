@@ -10,9 +10,9 @@ class Client extends Model
   use HasFactory;
   
   protected $fillable = [
-    'first_nmae', 'middle_name', 'last_name',
+    'first_name', 'middle_name', 'last_name',
     'phone_number', 'email', 'address',
-    'description', 'client_type_id'
+    'description', 'type_id'
   ];
 
   public function orders()
@@ -20,8 +20,13 @@ class Client extends Model
     return $this->hasMany(Order::class);
   }
 
-  public function clientType()
+  public function type()
   {
     return $this->belongsTo(ClientType::class);
+  }
+
+  public function getFullNameAttribute()
+  {
+    return "{$this->first_name} {$this->last_name}";
   }
 }

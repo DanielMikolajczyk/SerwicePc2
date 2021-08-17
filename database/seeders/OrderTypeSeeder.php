@@ -17,13 +17,13 @@ class OrderTypeSeeder extends Seeder
     {
       $faker = Faker::create();
 
-      $orderTypes = [
+      $typesNames = [
         'laptop', 'komputer', 'xbox', 'playStation', 'radio'
       ];
 
-      foreach($orderTypes as $type){
+      foreach($typesNames as $name){
         OrderType::create([
-          'type' => $type,
+          'name' => $name,
           'description' => $faker->sentences(2,true)
         ]);
       }

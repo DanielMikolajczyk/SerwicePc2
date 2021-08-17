@@ -10,9 +10,10 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-      'client_id', 'status_id','order_type_id',
+      'client_id', 'status_id','type_id',
       'serial_number', 'part_number', 'code',
-      'manufacturer', 'model', 'paid'
+      'manufacturer', 'model', 'paid',
+      'deadline', 'issue_description', 'visual_description'
     ];
 
     public function client()
@@ -20,13 +21,15 @@ class Order extends Model
       return $this->belongsTo(Client::class);
     }
 
-    public function orderStatus()
+    public function status()
     {
       return $this->belongsTo(OrderStatus::class,'status_id');
     }
 
-    public function orderType()
+    public function type()
     {
       return $this->belongsTo(OrderType::class);
     }
+
+    
 }

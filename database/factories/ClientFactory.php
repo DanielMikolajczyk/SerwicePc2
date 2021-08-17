@@ -22,16 +22,16 @@ class ClientFactory extends Factory
      */
     public function definition()
     {
-      //$clientTypes = ClientType::all();
+      $clientTypes = ClientType::all();
         return [
-            'first_name' => $this->faker->firstName(),
-            'middle_name' => $this->faker->boolean() ? $this->faker->firstName() : null,
-            'last_name' => $this->faker->lastName(),
-            //'client_type_id' => $clientTypes->random()->id,
-            'phone_number' => $this->faker->phoneNumber(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'address' => $this->faker->address(),
-            'description' => $this->faker->realText($this->faker->numberBetween(10,20)),
+            'first_name'    => $this->faker->firstName(),
+            'middle_name'   => $this->faker->boolean() ? $this->faker->firstName() : null,
+            'last_name'     => $this->faker->lastName(),
+            'type_id'       => $clientTypes->random()->id,
+            'phone_number'  => $this->faker->phoneNumber(),
+            'email'         => $this->faker->unique()->safeEmail(),
+            'address'       => $this->faker->address(),
+            'description'   => $this->faker->realText($this->faker->numberBetween(10,20)),
         ];
     }
 }

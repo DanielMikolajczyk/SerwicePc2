@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ClientController;
+use App\Models\Client;
+use App\Models\ClientType;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::resource('order', OrderController::class);
+Route::resource('client', ClientController::class);
+
+Route::get('/test', function(){
+  $clients = Client::with('clientType')->get();
+  foreach($clients as $client){
+    echo $client->clientType->id . '</br>';
+  }
+});
 
 Route::get('/', function () {
     return view('web/layouts/master');

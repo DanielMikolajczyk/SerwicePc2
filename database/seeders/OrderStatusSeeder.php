@@ -17,14 +17,14 @@ class OrderStatusSeeder extends Seeder
     {
       $faker = Faker::create();
 
-      $orderStatuses = [
+      $statuesNames = [
         'przyjęty', 'diagnoza', 'w trakie naprawy', 'zakończony' //TODO...
       ];
 
-      foreach($orderStatuses as $status){
+      foreach($statuesNames as $name){
         OrderStatus::create([
-          'status' => $status,
-          'description' => $faker->sentences(2,true)
+          'name'         => $name,
+          'description'  => $faker->sentences(2,true)
         ]);
       }
     }
