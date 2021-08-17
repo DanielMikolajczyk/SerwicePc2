@@ -4,34 +4,40 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderType;
+use App\Repositories\OrderRepository;
 
 class OrderService
 {
-  public function create(array $data): Order
+  protected $orderRepository;
+
+  public function __construct(OrderRepository $orderRepository)
+  {
+    $this->orderRepository = $orderRepository;
+  }
+
+  public function create(array $data)
   {
     $orderCode = $this->generateOrderCode();
-    $orderTypeId = $this->getOrderTypeIdByName($data['type_id']);
 
-    return Order::create($data + [
-      'order_type_id' => $orderTypeId,
+    $this->orderRepository->create($data + [
       'code'          => $orderCode,
       'status_id'     => 1,
       'paid'          => 0
     ]);
   }
 
-  public function update(array $data, Order $order)
+  public function update(int $id, array $data)
   {
-    $order->update($data);
-  }
-    
-  public function getOrderTypeIdByName(string $type): int
-  {
-    return OrderType::where('type', $type)->pluck('id')->first();
+    $this->orderRepository->update($id, $data);
   }
 
+  public function destroy(int $id)
+  {
+    $this->orderRepository->destroy($id);
+  }
+    
   public function generateOrderCode(): int
   {
-    return Order::all()->sortByDesc('id')->first()->id;
+    return $this->orderRepository->getLastOrderId();
   }
 }

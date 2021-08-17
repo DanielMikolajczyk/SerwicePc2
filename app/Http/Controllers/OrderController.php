@@ -15,12 +15,10 @@ use App\Services\ClientService;
 class OrderController extends Controller
 {
   protected $orderService;
-  protected $clientService;
 
-  public function __construct(OrderService $orderService, ClientService $clientService)
+  public function __construct(OrderService $orderService)
   {
     $this->orderService   = $orderService;
-    $this->clientService  = $clientService;
   }
 
   public function index(): View
@@ -38,11 +36,11 @@ class OrderController extends Controller
     ]);
   }
 
-  public function store(ValidateOrderWithClientRequest $request): RedirectResponse
+  public function store(ValidateOrderWithClientRequest $request, ClientService $clientService): RedirectResponse
   {
-    $this->clientService->create($request->validated()['client']);
-    $client = $this->clientService->create($request->validated()['client']);
-    $this->orderService->create($request->validated()['order'] + ['client_id' => $client->id]);
+    $client = $clientService->create($request->validated()['client']);
+    $order = $this->orderService
+      ->create($request->validated()['order'] + ['client_id' => $client->id]);
 
     return redirect()->route('order.index');
   }
@@ -64,9 +62,15 @@ class OrderController extends Controller
 
   public function update(UpdateOrderRequest $request, Order $order): RedirectResponse
   {
-    $this->orderService->update($request->validated(), $order);
+    $this->orderService->update($order->id, $request->validated());
 
     return redirect()->route('order.index');
   }
 
+  public function destroy(Order $order)
+  {
+    $this->orderService->destroy($order->id);
+
+    return redirect()->route('order.index');
+  }
 }

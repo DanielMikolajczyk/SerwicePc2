@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ClientController;
 use App\Models\Client;
 use App\Models\ClientType;
 
@@ -17,6 +18,7 @@ use App\Models\ClientType;
 */
 
 Route::resource('order', OrderController::class);
+Route::resource('client', ClientController::class);
 
 Route::get('/test', function(){
   $clients = Client::with('clientType')->get();

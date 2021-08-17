@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Client;
-use App\Models\ClientType;
 use App\Repositories\ClientRepository;
 
 class ClientService
@@ -17,11 +16,6 @@ class ClientService
 
   public function create(array $data): Client
   {
-    $client = Client::with('clientType')->get();
-    dd($client->clientType);
-    return Client::create(
-      $data 
-    );
+   return $this->clientRepository->create($data); 
   }
-
 }

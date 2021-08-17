@@ -8,16 +8,15 @@ use App\Models\ClientType;
 class ClientRepository
 {
 
-  protected $client;
+  protected $model;
 
-  public function __construct(Client $client)
+  public function __construct(Client $model)
   {
-    $this->client = $client;
+    $this->model = $model;
   }
 
-
-  public function getClientTypeIdByName(string $type): int
+  public function create(array $data): Client
   {
-    return ClientType::where('type', $type)->first()->id;
+    return $this->model::create($data);
   }
 }

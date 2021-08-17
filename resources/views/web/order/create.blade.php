@@ -5,6 +5,9 @@
 @endsection
 
 @section('content')
+@if($errors->any())
+{!! implode('', $errors->all('<div>:message</div>')) !!}
+@endif
   <div>
     <div class="py-8 mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
       <span class="font-medium text-2xl">Stwórz nowe zamówienie</span>
@@ -27,7 +30,7 @@
                       <option value=""></option>
                       @foreach ($orderTypes as $type)
                         <option value="{{ $type->id }}" @if(old('order.type_id') === $type->id) selected @endif>
-                          {{ $type->type }}
+                          {{ $type->name }}
                         </option>
                       @endforeach
                     </select>
@@ -191,8 +194,8 @@
                     <select name="client[type_id]" class="mt-1 border border-gray-300 @error('client.type') border-red-600 @enderror rounded p-1 w-96">
                       <option value="{{ old('client.type_id') }}">{{ old('client.type_id') }}</option>
                       @foreach ($clientTypes as $type)
-                        <option value="{{ $type->type }}" @if(old('client.type_id') === $type->id) selected @endif>
-                          {{ $type->type }}
+                        <option value="{{ $type->id }}" @if(old('client.type_id') === $type->id) selected @endif>
+                          {{ $type->name }}
                         </option>
                       @endforeach
                     </select>
