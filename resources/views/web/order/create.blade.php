@@ -34,7 +34,7 @@
                         </option>
                       @endforeach
                     </select>
-                    @error('order.type')
+                    @error('order.type_id')
                       <div class="text-red-600 text-sm my-2">
                         <span class="font-medium">{{ $message }}</span>
                       </div>
@@ -199,7 +199,7 @@
                         </option>
                       @endforeach
                     </select>
-                    @error('client.type')
+                    @error('client.type_id')
                       <div class="text-red-600 text-sm my-2">
                         <span class="font-medium">{{ $message }}</span>
                       </div>

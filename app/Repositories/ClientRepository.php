@@ -19,4 +19,9 @@ class ClientRepository
   {
     return $this->model::create($data);
   }
+
+  public function update(int $id, array $data)
+  {
+    $this->model::findOrFail($id)->update($data);
+  }
 }
