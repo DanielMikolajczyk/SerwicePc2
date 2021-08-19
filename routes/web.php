@@ -5,6 +5,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ClientController;
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,8 @@ Route::resource('order', OrderController::class);
 Route::resource('client', ClientController::class);
 
 Route::get('/test', function(){
-  $clients = Client::with('clientType')->get();
-  foreach($clients as $client){
-    echo $client->clientType->id . '</br>';
-  }
+  return Order::where('client_id', 1)->get();
+  // return Order::where('client_id', 1)->delete();
 });
 
 Route::get('/', function () {

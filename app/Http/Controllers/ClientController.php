@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\Client;
 use App\Models\ClientType;
 use App\Services\ClientService;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -18,7 +19,7 @@ class ClientController extends Controller
 
   public function __construct(ClientService $clientService)
   {
-    $this->clientService   = $clientService;
+    $this->clientService = $clientService;
   }
 
   public function index(): View
@@ -81,12 +82,12 @@ class ClientController extends Controller
 
   /**
    * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Client $client, OrderService $orderService): RedirectResponse
   {
-    //
+    $orderService->deleteClientOrders($client->id);
+    $this->clientService->delete($client->id);
+
+    return redirect()->route('client.index');
   }
 }

@@ -7,20 +7,19 @@ use App\Repositories\ClientRepository;
 
 class ClientService
 {
-  protected $clientRepository;
-
-  public function __construct(ClientRepository $clientRepository)
-  {
-    $this->clientRepository = $clientRepository;
-  }
-
   public function create(array $data): Client
   {
-   return $this->clientRepository->create($data); 
+   return Client::create($data);
   }
 
-  public function update(int $id, array $data)
+  public function update(int $id, array $data): Client
   {
-    return $this->clientRepository->update($id,$data);
+    Client::findOrFail($id)->update($data);
+    return Client::findOrFail($id);
+  }
+
+  public function delete(int $id): void
+  {
+    Client::findOrFail($id)->delete();
   }
 }
