@@ -2,42 +2,47 @@
 
 namespace App\Services;
 
+use App\Models\Client;
 use App\Models\Order;
 use App\Models\OrderType;
 use App\Repositories\OrderRepository;
 
 class OrderService
 {
-  protected $orderRepository;
-
-  public function __construct(OrderRepository $orderRepository)
-  {
-    $this->orderRepository = $orderRepository;
-  }
-
-  public function create(array $data)
+  public function create(array $data): Order
   {
     $orderCode = $this->generateOrderCode();
 
-    $this->orderRepository->create($data + [
+    return Order::create($data + [
       'code'          => $orderCode,
       'status_id'     => 1,
       'paid'          => 0
     ]);
   }
 
-  public function update(int $id, array $data)
+  public function update(int $id, array $data): Order
   {
-    $this->orderRepository->update($id, $data);
+    return Order::findOrFail($id)->update($data);
   }
 
-  public function destroy(int $id)
+  public function destroy(int $id): void
   {
-    $this->orderRepository->destroy($id);
+    Order::findOrFail($id)->destroy($id);
   }
     
+  /*
+  * Generate new order code.
+  */
   public function generateOrderCode(): int
   {
-    return $this->orderRepository->getLastOrderId();
+    return Order::all()->sortByDesc('id')->first()->id;
+  }
+
+  /*
+  * Delete all orders, associated with given client id.
+  */
+  public function deleteClientOrders(int $id): void
+  {
+    Order::where('client_id', $id)->delete();
   }
 }

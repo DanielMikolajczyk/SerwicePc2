@@ -28,6 +28,9 @@ class OrderController extends Controller
     ]);
   }
 
+  /**
+   * Show the form for creating a new resource.
+   */
   public function create(): View
   {
     return view('web/order/create', [
@@ -36,6 +39,9 @@ class OrderController extends Controller
     ]);
   }
 
+  /**
+   * Store a newly created resource in storage.
+   */
   public function store(ValidateOrderWithClientRequest $request, ClientService $clientService): RedirectResponse
   {
     $client = $clientService->create($request->validated()['client']);
@@ -45,6 +51,9 @@ class OrderController extends Controller
     return redirect()->route('order.index');
   }
 
+  /**
+   * Display the specified resource.
+   */
   public function show(Order $order): View
   {
     return view('web/order/show', [
@@ -52,6 +61,9 @@ class OrderController extends Controller
     ]);
   }
 
+  /**
+   * Show the form for editing the specified resource.
+   */
   public function edit(Order $order): View
   {
     return view('web/order/edit', [
@@ -60,6 +72,9 @@ class OrderController extends Controller
     ]);
   }
 
+  /**
+   * Update the specified resource in storage.
+   */
   public function update(UpdateOrderRequest $request, Order $order): RedirectResponse
   {
     $this->orderService->update($order->id, $request->validated());
@@ -67,6 +82,9 @@ class OrderController extends Controller
     return redirect()->route('order.index');
   }
 
+  /**
+   * Remove the specified resource from storage.
+   */
   public function destroy(Order $order)
   {
     $this->orderService->destroy($order->id);
