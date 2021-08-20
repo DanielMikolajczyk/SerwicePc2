@@ -9,6 +9,8 @@ class OrderType extends Model
 {
     use HasFactory;
 
+    protected $table = 'order_types';
+
     protected $fillable = [
       'name', 'description'
     ];

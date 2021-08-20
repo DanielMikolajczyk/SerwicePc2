@@ -27,7 +27,7 @@ class OrderService
 
   public function destroy(int $id): void
   {
-    Order::findOrFail($id)->destroy($id);
+    Order::destroy($id);
   }
     
   /*
@@ -45,4 +45,21 @@ class OrderService
   {
     Order::where('client_id', $id)->delete();
   }
+  
+  /*
+  * Delete all orders, associated with given order type id.
+  */
+  public function deleteTypeOrders(int $id): void
+  {
+    Order::where('type_id', $id)->delete();
+  }
+
+  /*
+  * Delete all orders, associated with given order status id.
+  */
+  public function deleteStatusOrders(int $id): void
+  {
+    Order::where('status_id', $id)->delete();
+  }
+  
 }

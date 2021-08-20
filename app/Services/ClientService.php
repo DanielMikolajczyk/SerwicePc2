@@ -22,4 +22,9 @@ class ClientService
   {
     Client::findOrFail($id)->delete();
   }
+
+  public function deleteTypeClient(int $id): void
+  {
+    Client::where('type_id',$id)->delete();
+  }
 }
