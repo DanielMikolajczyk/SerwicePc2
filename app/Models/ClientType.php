@@ -7,21 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClientType extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $fillable = [
-      'name', 'description'
-    ];
+  protected $table = 'client_types';
 
-    public $timestamps = false;
+  protected $fillable = [
+    'name', 'description'
+  ];
 
-    public function clients()
-    {
-      return $this->hasMany(Client::class);
-    }
+  public $timestamps = false;
 
-    public function getTypeAttribute($value)
-    {
-      return ucfirst($value);
-    }
+  public function clients()
+  {
+    return $this->hasMany(Client::class, 'type_id');
+  }
+
+  public function getTypeAttribute($value)
+  {
+    return ucfirst($value);
+  }
 }

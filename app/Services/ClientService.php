@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Client;
-use App\Repositories\ClientRepository;
 
 class ClientService
 {
@@ -21,5 +20,10 @@ class ClientService
   public function delete(int $id): void
   {
     Client::findOrFail($id)->delete();
+  }
+
+  public function deleteTypeClient(int $id): void
+  {
+    Client::where('type_id',$id)->delete();
   }
 }

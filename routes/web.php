@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ClientController;
-use App\Models\Client;
-use App\Models\ClientType;
+use App\Http\Controllers\ClientTypeController;
+use App\Http\Controllers\DepartamentController;
+use App\Http\Controllers\OrderStatusController;
+use App\Http\Controllers\OrderTypeController;
 use App\Models\Order;
 
 /*
@@ -19,7 +21,11 @@ use App\Models\Order;
 */
 
 Route::resource('order', OrderController::class);
+Route::resource('ordertype', OrderTypeController::class);
+Route::resource('orderstatus', OrderStatusController::class);
 Route::resource('client', ClientController::class);
+Route::resource('clienttype', ClientTypeController::class);
+Route::resource('departament', DepartamentController::class);
 
 Route::get('/test', function(){
   return Order::where('client_id', 1)->get();
