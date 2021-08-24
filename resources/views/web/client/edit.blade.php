@@ -117,7 +117,7 @@
                   @enderror
                 </div>
                 <div class="text-right">
-                  <button role="submit"
+                  <button type="submit"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full float-right"
                     required>Submit</button>
                 </div>

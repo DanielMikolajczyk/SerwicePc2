@@ -7,6 +7,8 @@ use App\Http\Controllers\ClientTypeController;
 use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\OrderTypeController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use App\Models\Order;
 
 /*
@@ -26,6 +28,8 @@ Route::resource('orderstatus', OrderStatusController::class);
 Route::resource('client', ClientController::class);
 Route::resource('clienttype', ClientTypeController::class);
 Route::resource('departament', DepartamentController::class);
+Route::resource('role', RoleController::class);
+Route::resource('permission', PermissionController::class);
 
 Route::get('/test', function(){
   return Order::where('client_id', 1)->get();
