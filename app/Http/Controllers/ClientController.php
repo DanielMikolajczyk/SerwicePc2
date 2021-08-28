@@ -19,6 +19,7 @@ class ClientController extends Controller
 
   public function __construct(ClientService $clientService)
   {
+    $this->authorizeResource(Client::class, 'client');
     $this->clientService = $clientService;
   }
 

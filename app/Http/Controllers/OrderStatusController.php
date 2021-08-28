@@ -18,6 +18,7 @@ class OrderStatusController extends Controller
 
   public function __construct(OrderStatusService $orderStatusService)
   {
+    $this->authorizeResource(OrderStatus::class, 'orderStatus');
     $this->orderStatusService = $orderStatusService;
   }
 

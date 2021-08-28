@@ -14,11 +14,11 @@ use App\Services\OrderService;
 
 class ClientTypeController extends Controller
 {
-  
   protected $clientTypeService;
 
   public function __construct(ClientTypeService $clientTypeService)
   {
+    $this->authorizeResource(ClientType::class, 'clientType');
     $this->clientTypeService = $clientTypeService;
   }
 

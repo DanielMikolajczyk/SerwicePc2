@@ -16,6 +16,7 @@ class DepartamentController extends Controller
 
   public function __construct(DepartamentService $departamentService)
   {
+    $this->authorizeResource(Departament::class, 'departament');    
     $this->departamentService = $departamentService;
   }
 
