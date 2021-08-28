@@ -22,4 +22,12 @@ class Role extends Model
     {
       return $this->belongsToMany(Permission::class);
     }
+
+    /*
+    * Return ids of the Permissions associated with given Role
+    */
+    public function getPermissionsIdsAttribute(): array
+    {
+      return $this->permissions->pluck('id')->toArray();
+    }
 }

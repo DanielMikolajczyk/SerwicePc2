@@ -16,7 +16,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 bg-white border-b border-gray-200">
-            <form action="{{ route('orderstatus.update', $orderStatus->id) }}" method="POST">
+            <form action="{{ route('role.update', $role->id) }}" method="POST">
               @csrf
               @method('PUT')
               <div class="p-2">
@@ -25,24 +25,24 @@
                   <label class="text-gray-600 block">Nazwa</label>
                   <input type="text"
                     class="border border-gray-300 @error('name') border-red-600 @enderror mt-1 rounded p-1 w-96"
-                    name="name" required value="{{ $orderStatus->name }}">
+                    name="name" required value="{{ $role->name }}">
                   @error('name')
                     <div class="text-red-600 text-sm my-2">
                       <span class="font-medium">{{ $message }}</span>
                     </div>
                   @enderror
                 </div>
-                <div class="mb-4">
-                  <label class="text-gray-600 block">Opis</label>
-                  <textarea name="description"
-                    class="w-96 border border-gray-300 @error('description') border-red-600 @enderror mt-1 rounded p-1 h-40"
-                    >{{ $orderStatus->description }}</textarea>
-                  @error('description')
-                    <div class="text-red-600 text-sm my-2">
-                      <span class="font-medium">{{ $message }}</span>
-                    </div>
-                  @enderror
-                </div>
+                @forelse($permissions as $permission)
+                  <div>
+                    <label for="permission[]">{{ $permission->name }}</label>
+                    <input type="checkbox" 
+                      name="permission[]" 
+                      value="{{ $permission->id }}"
+                      @if(in_array($permission->id, $role->permissionsIds)) checked @endif>
+                  </div>
+                @empty
+                  <div>Żadnych uprawnień</div>
+                @endforelse
                 <div class="text-right">
                   <button type="submit"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full float-right"

@@ -8,22 +8,10 @@ use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\OrderTypeController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
   Route::resource('order', OrderController::class);
@@ -32,5 +20,10 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('client', ClientController::class);
   Route::resource('clienttype', ClientTypeController::class);
   Route::resource('departament', DepartamentController::class);  
+  Route::resource('role', RoleController::class);
+  Route::resource('permission', PermissionController::class);
 });
 
+Route::get('/dashboard', function () {
+  return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
