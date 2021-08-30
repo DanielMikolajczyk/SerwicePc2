@@ -12,6 +12,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/test', [App\Http\Controllers\TestController::class, 'test']);
+Route::post('/test', [App\Http\Controllers\TestController::class, 'testPost'])->name('post');
 
 Route::middleware(['auth'])->group(function () {
   Route::resource('order', OrderController::class);

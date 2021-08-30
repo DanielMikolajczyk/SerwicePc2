@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
           $table->string('serial_number');
           $table->string('part_number');
           $table->string('code');
+          $table->string('image_url')->nullable();
           $table->string('manufacturer')->nullable();
           $table->string('model');
           $table->boolean('paid');

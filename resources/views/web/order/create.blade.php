@@ -16,7 +16,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 bg-white border-b border-gray-200">
-            <form action="{{ route('order.store') }}" method="POST">
+            <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="flex justify-around">
                 <div class="p-2">
@@ -77,9 +77,7 @@
                     @enderror
                   </div>
                   <div class="mb-4">
-                    <label class="text-gray-600 block">
-                      Producent
-                    </label>
+                    <label class="text-gray-600 block">Producent</label>
                     <input type="text" class="border border-gray-300 @error('order.manufacturer') border-red-600 @enderror mt-1 rounded p-1 w-96" name="order[manufacturer]"
                       required value="{{ old('order.manufacturer') }}">
                     @error('order.manufacturer')
@@ -89,12 +87,20 @@
                     @enderror
                   </div>
                   <div class="mb-4">
-                    <label class="text-gray-600 block">
-                      Przewidywana data wydania
-                    </label>
-                    <input type="text" class="border border-gray-300 @error('order.deadline') border-red-600 @enderror mt-1 rounded p-1 w-96" name="order[deadline]"
+                    <label class="text-gray-600 block">Przewidywana Data wydania</label>
+                    <input type="date" class="border border-gray-300 @error('order.deadline') border-red-600 @enderror mt-1 rounded p-1 w-96" name="order[deadline]"
                       required value="{{ old('order.deadline') }}">
                     @error('order.deadline')
+                      <div class="text-red-600 text-sm my-2">
+                        <span class="font-medium">{{ $message }}</span>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="mb-4">
+                    <label class="text-gray-600 block">Zdjęcie</label>
+                    <input type="file" name="order[image]"
+                      value="{{ old('order.image') }}">
+                    @error('order.image')
                       <div class="text-red-600 text-sm my-2">
                         <span class="font-medium">{{ $message }}</span>
                       </div>

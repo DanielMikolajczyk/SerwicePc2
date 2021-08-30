@@ -33,6 +33,7 @@ class ValidateOrderWithClientRequest extends FormRequest
             'order.visual_description'=> 'required|string|max:1024',
             'order.issue_description' => 'required|string|max:1024',
             'order.comment'           => 'required|string|max:1024',
+            'order.image'             => 'mimes:jpeg,jpg,png|max:10000',
 
             'client.first_name'       => 'required|string|max:32',
             'client.last_name'        => 'required|string|max:32',
