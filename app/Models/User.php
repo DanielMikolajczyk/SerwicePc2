@@ -9,30 +9,39 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+  use HasFactory, Notifiable;
 
 
-    protected $fillable = [
-        'name',
-        'email','email_verified_at','password','phone_number'
-        ,'actual_departament','departament_id','role_id'
-    ];
+  protected $fillable = [
+    'name', 'email', 'email_verified_at', 'password',
+    'phone_number', 'actual_departament', 'departament_id', 'role_id'
+  ];
 
-    protected $hidden = [
-        'password',
-    ];
+  protected $hidden = [
+    'password',
+  ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  protected $casts = [
+    'email_verified_at' => 'datetime',
+  ];
 
-    public function role()
-    {
-      return $this->belongsTo(Role::class);
-    }
+  public function role()
+  {
+    return $this->belongsTo(Role::class);
+  }
 
-    public function departament()
-    {
-      return $this->belongsTo(Departament::class);
-    }
+  public function departament()
+  {
+    return $this->belongsTo(Departament::class);
+  }
+
+  public function isAdmin(): bool
+  {
+    return $this->role->name == 'Admin';
+  }
+
+  public function checkPermission($name)
+  {
+    return in_array($name, $this->role->permissions->pluck('name')->toArray());
+  }
 }
