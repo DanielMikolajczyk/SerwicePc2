@@ -13,7 +13,8 @@ class Order extends Model
       'client_id', 'status_id','type_id',
       'serial_number', 'part_number', 'code',
       'manufacturer', 'model', 'paid',
-      'deadline', 'issue_description', 'visual_description'
+      'deadline', 'issue_description', 'visual_description',
+      'image_url'
     ];
 
     public function client()

@@ -2,21 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Client;
 use App\Models\Order;
-use App\Models\OrderType;
-use App\Repositories\OrderRepository;
+use Illuminate\Http\UploadedFile;
+use Image;
 
 class OrderService
 {
   public function create(array $data): Order
   {
     $orderCode = $this->generateOrderCode();
-
+    if(isset($data['image'])){
+      $imagePath = $this->saveImage($data['image']);
+    }
     return Order::create($data + [
       'code'          => $orderCode,
       'status_id'     => 1,
-      'paid'          => 0
+      'paid'          => 0,
+      'image_url'     => $imagePath ?? null
     ]);
   }
 
@@ -62,4 +64,13 @@ class OrderService
     Order::where('status_id', $id)->delete();
   }
   
+  /*
+  * Store uploaded image to the database
+  */
+  public function saveImage(UploadedFile $image): string
+  {
+    $imagePath = 'storage/'.time().$image->getClientOriginalName();
+    Image::make($image)->save(public_path().'/'.$imagePath);
+    return $imagePath;
+  }
 }
