@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterClientRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Contracts\View\View;
@@ -14,7 +15,6 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-
   protected $clientService;
 
   public function __construct(ClientService $clientService)
@@ -23,10 +23,12 @@ class ClientController extends Controller
     $this->clientService = $clientService;
   }
 
-  public function index(): View
+  public function index(FilterClientRequest $request): View
   {
+    $clients = $this->clientService->filterIndexPage($request);
+
     return view('web/client/index', [
-      'clients' => Client::all()
+      'clients' => $clients
     ]);
   }
 

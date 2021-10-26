@@ -18,14 +18,14 @@ class ClientTypeController extends Controller
 
   public function __construct(ClientTypeService $clientTypeService)
   {
-    $this->authorizeResource(ClientType::class, 'clientType');
+    $this->authorizeResource(ClientType::class, 'clienttype');
     $this->clientTypeService = $clientTypeService;
   }
 
   public function index(): View
   {
     return view('web/clientType/index', [
-      'clientTypes' => ClientType::all()
+      'clientTypes' => ClientType::withCount('clients')->get()
     ]);
   }
 
@@ -70,7 +70,7 @@ class ClientTypeController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(ClientType $clientType, UpdateClientTypeRequest $request): RedirectResponse
+  public function update(UpdateClientTypeRequest $request, ClientType $clientType): RedirectResponse
   {
     $this->clientTypeService->update($clientType->id, $request->validated());
 

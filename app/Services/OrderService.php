@@ -3,28 +3,43 @@
 namespace App\Services;
 
 use App\Models\Order;
-use Illuminate\Http\UploadedFile;
+use File;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Image;
 
 class OrderService
 {
   public function create(array $data): Order
   {
-    $orderCode = $this->generateOrderCode();
+    $data['code'] = $this->generateOrderCode();
     if(isset($data['image'])){
-      $imagePath = $this->saveImage($data['image']);
+      $imageDirectory = $this->saveImage(Order::getNextId(), $data['image']);
     }
     return Order::create($data + [
-      'code'          => $orderCode,
       'status_id'     => 1,
       'paid'          => 0,
-      'image_url'     => $imagePath ?? null
+      'image_url'     => $imageDirectory ?? null
     ]);
   }
 
-  public function update(int $id, array $data): Order
+  public function update(int $id, array $data): void
   {
-    return Order::findOrFail($id)->update($data);
+    $order = Order::findOrFail($id);
+    $order->update($data);
+
+    if(array_key_exists('diagnoses',$data)){
+      $order->diagnoses()->sync($data['diagnoses']);
+    }
+    
+    if(array_key_exists('decisions',$data)){
+      $order->diagnoses->map(function($value){
+        return $value->pivot->update(['decision' => 0]);
+      });
+      
+      $order->diagnoses()->updateExistingPivot($data['decisions'],['decision' => 1]);
+    }
   }
 
   public function destroy(int $id): void
@@ -67,10 +82,47 @@ class OrderService
   /*
   * Store uploaded image to the database
   */
-  public function saveImage(UploadedFile $image): string
+  public function saveImage(int $nextId, array $images): string
   {
-    $imagePath = 'storage/'.time().$image->getClientOriginalName();
-    Image::make($image)->save(public_path().'/'.$imagePath);
-    return $imagePath;
+    $imageDirectory = public_path().'/storage/images/orders/'.$nextId;
+    if(!File::exists($imageDirectory)){
+      File::makeDirectory($imageDirectory, 0777, true);
+    }
+    foreach($images as $image){
+      $imagePath = $imageDirectory.'/'.time().'-'.$image->getClientOriginalName();
+      Image::make($image)->save($imagePath);
+    }
+    return 'storage/images/orders/'.$nextId;
+  }
+
+  /*
+  * Filter results to display on index page
+  */
+  public function filterIndexPage(Request $request): LengthAwarePaginator
+  {
+    //If there is no filters return default view
+    if(empty($request->validated())){
+      return Order::orderBy('deadline','desc')->paginate(25);
+    }
+    
+    $orders = Order::when($request->query('code'), function($query,$value){
+      return $query->where('code',$value);
+    })->when($request->query('deadline'), function($query,$value){
+      return $query->where('deadline',$value);
+    })->when($request->query('status'), function($query,$value){
+      return $query->where('status_id',$value);
+    })->when($request->query('type'), function($query,$value){
+      return $query->where('type_id',$value);
+    })->when($request->query('client_name'), function($query,$value){
+      //Split input for first and last name
+      //Then query the relationship
+      $fullName = explode(' ',$value);
+      return $query->whereHas('client',function(Builder $query) use ($fullName){
+        return $query->where('first_name',$fullName[0])->where('last_name',$fullName[1]);
+      });
+    })->orderBy('deadline','desc')
+      ->paginate(25);
+
+    return $orders;
   }
 }

@@ -12,7 +12,7 @@ class OrderStatus extends Model
     protected $table = 'order_statuses';
 
     protected $fillable = [
-      'name', 'description'
+      'name', 'description', 'stage_number'
     ];
 
     public $timestamps = false;

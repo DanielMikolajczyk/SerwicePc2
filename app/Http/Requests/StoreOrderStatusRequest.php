@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrderStatusRequest extends FormRequest
 {
+  public $stage_numbers = [1,2,3,4,5];
+
   /**
    * Determine if the user is authorized to make this request.
    */
@@ -21,6 +23,7 @@ class StoreOrderStatusRequest extends FormRequest
   {
     return [
       'name'        => 'required|string|max:32|unique:order_statuses,name',
+      'stage_number'=> 'required|in:'. implode(',',$this->stage_numbers),
       'description' => 'required|string|max:256'
     ];
   }

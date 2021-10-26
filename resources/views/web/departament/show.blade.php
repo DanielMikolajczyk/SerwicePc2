@@ -5,29 +5,30 @@
 @endsection
 
 @section('content')
-  <div>
-    <div class="py-8 mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <span class="font-medium text-2xl">Edytuj zamówienie: </span>{{ $departament->id }}
-    </div>
-    <div class="py-4">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-          <div class="p-6 bg-white border-b border-gray-200">
-            <div class="pb-1 border-b-2 flex-1">
-              <label class="text-gray-600 block">Nazwa</label>
-              <div class="font-medium text-xl">
-                {{ $departament->name }}
-              </div>
-            </div>
-            <div class="pb-1 border-b-2 flex-1">
-              <label class="text-gray-600 block">Kod</label>
-              <div class="font-medium text-xl">
-                {{ $departament->code }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="py-8 mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <span class="font-medium text-2xl">Szczegóły Typu Klienta</span>
   </div>
+  <x-forms.background>
+    <div class="mb-5">
+      <x-forms.title>Typ klienta:</x-forms.title>
+    </div>
+    <div class="grid grid-cols-6 gap-4 mb-4 w-full">
+
+      <div class="col-span-2">
+        <x-forms.label>Kod</x-forms.label>
+        <x-forms.input name="code" :value="$departament->code" disabled="true" />
+      </div>
+
+      <div class="col-span-2">
+        <x-forms.label>Nazwa</x-forms.label>
+        <x-forms.input name="name" :value="$departament->name" disabled="true" />
+      </div>
+
+      <div class="col-span-6">
+        <x-forms.label>Opis</x-forms.label>
+        <p>{{ $departament->description }}</p>
+      </div>
+      
+    </div>
+  </x-forms.background>
 @endsection

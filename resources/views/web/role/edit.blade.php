@@ -12,47 +12,37 @@
     <div class="py-8 mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
       <span class="font-medium text-2xl">Edytuj typ zamówienia:</span>
     </div>
-    <div class="py-4">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-          <div class="p-6 bg-white border-b border-gray-200">
-            <form action="{{ route('role.update', $role->id) }}" method="POST">
-              @csrf
-              @method('PUT')
-              <div class="p-2">
-                <div class="text-xl font-medium mb-5">Dane klienta</div>
-                <div class="mb-4">
-                  <label class="text-gray-600 block">Nazwa</label>
-                  <input type="text"
-                    class="border border-gray-300 @error('name') border-red-600 @enderror mt-1 rounded p-1 w-96"
-                    name="name" required value="{{ $role->name }}">
-                  @error('name')
-                    <div class="text-red-600 text-sm my-2">
-                      <span class="font-medium">{{ $message }}</span>
-                    </div>
-                  @enderror
-                </div>
-                @forelse($permissions as $permission)
-                  <div>
-                    <label for="permission[]">{{ $permission->name }}</label>
-                    <input type="checkbox" 
-                      name="permission[]" 
-                      value="{{ $permission->id }}"
-                      @if(in_array($permission->id, $role->permissionsIds)) checked @endif>
-                  </div>
-                @empty
-                  <div>Żadnych uprawnień</div>
-                @endforelse
-                <div class="text-right">
-                  <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full float-right"
-                    required>Submit</button>
-                </div>
+    <x-forms.background>
+      <form action="{{ route('role.update', $role->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="p-2">
+          <div class="mb-5">
+            <x-forms.title>Stwórz nową rolę:</x-forms.title>
+          </div>
+          <div class="w-1/2 mb-4">
+            <x-forms.label>Nazwa</x-forms.label>
+            <x-forms.input name="name" :value="$role->name" :errors="$errors->messages()" />
+          </div>
+          <div class="grid grid-cols-4 gap-4 w-full">
+            @foreach ($permissions as $permission)
+              <div class="col-span-1 flex items-center 
+                @if($loop->iteration%4)) border-r-2 border-gray-200 @endif">
+                <x-forms.label for="permission[]">{{ $permission->name }}</x-forms.label>
+                <input class="mr-2" type="checkbox" name="permission[]" value="{{ $permission->id }}" @if (in_array($permission->id, $role->permissionsIds)) checked @endif>
               </div>
-            </form>
+              @if(!($loop->iteration%4))
+                <div class="border-2 border-gray-100 col-span-4"></div>
+              @endif
+            @endforeach
+          </div>
+          <div class="text-right">
+            <button type="submit"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full float-right"
+              required>Submit</button>
           </div>
         </div>
-      </div>
-    </div>
+      </form>
+    </x-forms.background>
   </div>
 @endsection

@@ -7,136 +7,142 @@
 @section('content')
   <div>
     <div class="py-8 mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <span class="font-medium text-2xl">Edytuj zamówienie: </span>{{ $order->id }}
-    </div>
-    <div class="py-4">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-          <div class="p-6 bg-white border-b border-gray-200">
-            <div class="flex justify-around">
-              <div class="p-2">
-                <div class="text-xl font-medium mb-5">Dane zamówienia</div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Numer seryjny
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->serial_number }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Numer artykułu (part number)
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->part_number }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Model
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->model }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Producent
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->manufacturer }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Przewidywana data wydania
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->deadline }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Wygląd urządzenia
-                  </label>
-                  <div class="font-medium">
-                    <p>
-                      {{ $order->visual_description }}
-                    </p>
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Opis usterki
-                  </label>
-                  <div class="font-medium">
-                    <p>
-                      {{ $order->issue_description }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2 w-96">
-                <div class="text-xl font-medium mb-5">Dane klienta</div>
-                <div class="mb-4 flex">
-                  <div class="pb-1 border-b-2 flex-1">
-                    <label class="text-gray-600 block">
-                      Imię
-                    </label>
-                    <div class="font-medium text-xl">
-                      {{ $order->client->first_name }}
-                    </div>
-                  </div>
-                  <div class="ml-3 pb-1 border-b-2 flex-1">
-                    <label class="text-gray-600 block">
-                      Nazwisko
-                    </label>
-                    <div class="font-medium text-xl">
-                      {{ $order->client->last_name }}
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Numer telefonu
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->client->phone_number }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Email
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->client->email }}
-                  </div>
-                </div>
-                <div class="mb-4 pb-1 border-b-2">
-                  <label class="text-gray-600 block">
-                    Adres
-                  </label>
-                  <div class="font-medium text-xl">
-                    {{ $order->client->address }}
-                  </div>
-                </div>
-                <div class="text-xl font-medium my-5">Dodatkowe informacje o zamówieniu</div>
-                <div class="mb-4">
-                  <label class="text-gray-600 block">
-                    Akcesoria
-                  </label>
-                  {{-- <input type="text" class="border border-gray-300 mt-1 rounded p-1 w-96" --}}
-                  {{-- required> TODO --}}
-                </div>
-                <div class="mb-4">
-                  <label class="text-gray-600 block">Komentarz</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="font-medium text-2xl">
+        Szczegóły zamówienia: <span>{{ $order->code }}</span>
       </div>
     </div>
+    <x-modals.modal/>
+    <x-forms.background>
+      <div class="grid grid-cols-6 gap-4 mb-4 w-full">
+        <div class="col-span-6 flex">
+          <x-forms.label>
+            <div class="text-lg"> Szczegóły dotyczące sprzętu:</div>
+          </x-forms.label>
+          <div class="justify-self-end">
+            <a href="{{route('order.edit',$order->id)}}">
+              <x-buttons.info class="w-40" bgColor="yellow" icon="fas fa-arrow-right" iconPosition="right">Przejdź do edycji</x-buttons.info>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-span-2">
+          <x-forms.label>Typ zamówienia</x-forms.label>
+          <x-forms.input name="1" :value="$order->type->name" disabled="true"/>
+        </div>
+
+        <div class="col-span-2">
+          <x-forms.label>Numer seryjny</x-forms.label>
+          <x-forms.input name="1" :value="$order->serial_number" disabled="true"/>
+        </div>
+
+        <div class="col-span-2">
+          <x-forms.label>Numer partii</x-forms.label>
+          <x-forms.input name="1" :value="$order->part_number" disabled="true"/>
+        </div>
+        
+        <div class="col-span-2">
+          <x-forms.label>Producent</x-forms.label>
+          <x-forms.input name="1" :value="$order->manufacturer" disabled="true"/>
+        </div>
+        
+        <div class="col-span-2">
+          <x-forms.label>Model</x-forms.label>
+          <x-forms.input name="1" :value="$order->model" disabled="true"/>
+        </div>
+        <div class="col-span-2"></div>
+        <div class="col-span-2">
+          <x-forms.label>Status zamówienia</x-forms.label>
+          <x-forms.input name="1" :value="$order->status->name" disabled="true"/>
+        </div>
+
+        <div class="col-span-2">
+          <x-forms.label>Zapłacono</x-forms.label>
+          <x-forms.input name="1" :value="$order->paid ? 'Tak' : 'Nie'" disabled="true"/>
+        </div>
+
+        <div class="col-span-2">
+          <x-forms.label>Przewidywany czas Zakończenia</x-forms.label>
+          <x-forms.input name="1" type="date" :value="$order->deadline" disabled="true"/>
+        </div>
+
+        <div class="col-span-3">
+          <x-forms.label>Opis usterki</x-forms.label>
+          <x-forms.input class="h-20" name="1" :value="$order->issue_description" disabled="true"/>
+        </div>
+
+        <div class="col-span-3">
+          <x-forms.label>Wygląd sprzętu</x-forms.label>
+          <x-forms.input class="h-20" name="1" :value="$order->visual_description" disabled="true"/>
+        </div>
+
+        <div class="col-span-6">
+          <x-forms.label>Komentarz</x-forms.label>
+          <x-forms.input class="h-20" name="1" :value="$order->comment" disabled="true"/>
+        </div>
+
+        @if(!is_null($order->image_url))
+          <div class="col-span-6 grid grid-cols-6 gap-4">
+            @forelse(scandir($order->image_url) as $scan)
+              @if(is_file($order->image_url.'/'.$scan))
+                <div class="col-span-2">
+                  <img src="{{ asset($order->image_url.'/'.$scan) }}" alt="" onclick="displayModal(this.src)" class="cursor-pointer">
+                </div>
+              @endif
+            @empty
+              <div class="col-span-2">Brak zdjęć</div>
+            @endforelse
+          </div>
+        @endif
+
+
+        <div class="col-span-6 pt-4 border-t-2">
+          <x-forms.label>
+            <div class="text-lg"> Szczegóły dotyczące akcesriów:</div>
+          </x-forms.label>
+        </div>
+
+        @forelse($order->accessories as $accessory)
+          <div class="col-span-3">
+            <a href="{{route('accessory.show',$accessory->id)}}">
+              <x-buttons.info bgColor="green" icon="fas fa-arrow-right" iconPosition="right"> 
+                Przejdź do akcesorium o nazwie: <span> {{ $accessory->name }} </span>
+              </x-buttons.info>
+            </a>
+          </div>
+        @empty
+          <div class="col-span-6">
+            <span>Brak akcesoriów dla tego zamówienia</span>
+          </div>
+        @endforelse 
+
+        <div class="col-span-6 pt-4 border-t-2">
+          <x-forms.label>
+            <div class="text-lg"> Szczegóły dotyczące klienta:</div>
+          </x-forms.label>
+        </div>
+        <div class="col-span-3">
+          <a href="{{route('client.show',$order->client->id)}}">
+            <x-buttons.info bgColor="green" icon="fas fa-arrow-right" iconPosition="right"> 
+              Przejdź do klienta o nazwie: <span> {{ $order->client->fullName }} </span>
+            </x-buttons.info>
+          </a>
+        </div>
+      </div>
+    </x-forms.background>
   </div>
 @endsection
+
+@push('js-footer')
+  <script>
+    const modalBox = document.getElementById('modal-box');
+    const modalImg = document.getElementById('modal-img');
+
+    function displayModal(source){
+      modalBox.classList.toggle('hidden');
+      modalImg.src = source;
+    }
+    modalBox.addEventListener('click',(e)=>{
+      modalBox.classList.toggle('hidden');
+    })
+  </script>
+@endpush

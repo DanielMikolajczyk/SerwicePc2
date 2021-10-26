@@ -15,6 +15,7 @@ class CreateAccessoriesTable extends Migration
       $table->id();
       $table->foreignId('order_id')->constrained();
       $table->string('name');
+      $table->string('manufacturer')->nullable();
       $table->string('image_url')->nullable();
       $table->text('description')->nullable();
       $table->timestamps();

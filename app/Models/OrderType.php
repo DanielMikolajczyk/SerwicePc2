@@ -22,6 +22,11 @@ class OrderType extends Model
       return $this->hasMany(Order::class);
     }
 
+    public function diagnoses()
+    {
+      return $this->hasMany(Diagnose::class);
+    }
+
     public function getNameAttribute($value)
     {
       return ucwords($value);

@@ -6,27 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOrderStatusesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('order_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description');
-        });
-    }
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('order_statuses', function (Blueprint $table) {
+      $table->id();
+      $table->integer('stage_number');
+      $table->string('name');
+      $table->text('description');
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('order_statuses');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('order_statuses');
+  }
 }

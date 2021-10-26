@@ -24,15 +24,19 @@ class UpdateOrderRequest extends FormRequest
   public function rules()
   {
     return [
-      'type_id'             => 'required|exists:order_types,id',
-      'serial_number'       => 'required|string|max:32|unique:orders,serial_number,'.$this->order->id,
-      'part_number'         => 'required|string|max:32',
-      'model'               => 'required|string|max:32',
-      'manufacturer'        => 'required|string|max:32',
-      'deadline'            => 'required|date',
-      'visual_description'  => 'required|string|max:1024',
-      'issue_description'   => 'required|string|max:1024',
-      'comment'             => 'required|string|max:1024',
+      'status_id'           => 'exists:order_statuses,id',
+      'type_id'             => 'exists:order_types,id',
+      'serial_number'       => 'string|max:32|unique:orders,serial_number,'.$this->order->id,
+      'part_number'         => 'string|max:32',
+      'model'               => 'string|max:32',
+      'manufacturer'        => 'string|max:32',
+      'deadline'            => 'date',
+      'visual_description'  => 'string|max:1024',
+      'issue_description'   => 'string|max:1024',
+      'comment'             => 'max:1024',
+      'diagnoses'           => 'array',
+      'decisions'           => 'array',
+      'paid'                => 'boolean'
     ];
   }
 }

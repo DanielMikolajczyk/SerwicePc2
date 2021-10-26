@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Requests\ValidateOrderWithClientRequest;
 use App\Models\ClientType;
+use App\Models\Diagnose;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\OrderType;
+use App\Services\AccessoryService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Services\OrderService;
@@ -19,13 +23,17 @@ class OrderController extends Controller
   public function __construct(OrderService $orderService)
   {
     $this->authorizeResource(Order::class, 'order');
-    $this->orderService   = $orderService;
+    $this->orderService = $orderService;
   }
 
-  public function index(): View
+  public function index(FilterOrderRequest $request): View
   {
+    $orders = $this->orderService->filterIndexPage($request);
+
     return view('web/order/index', [
-      'orders' => Order::all()->sortBy('deadline')
+      'orders'        => $orders,
+      'orderStatuses' => OrderStatus::all(),
+      'orderTypes'    => OrderType::all()
     ]);
   }
 
@@ -36,19 +44,25 @@ class OrderController extends Controller
   {
     return view('web/order/create', [
       'orderTypes' => OrderType::all(),
-      'clientTypes' => ClientType::all()
+      'clientTypes' => ClientType::all(),
     ]);
   }
 
   /**
    * Store a newly created resource in storage.
    */
-  public function store(ValidateOrderWithClientRequest $request, ClientService $clientService): RedirectResponse
+  public function store(ValidateOrderWithClientRequest $request,
+   ClientService $clientService,
+   AccessoryService $accessoryService
+   ): RedirectResponse
   {
     $client = $clientService->create($request->validated()['client']);
     $order = $this->orderService
       ->create($request->validated()['order'] + ['client_id' => $client->id]);
-
+    if(isset($request->validated()['accessory'])){
+      $accessoryService->create($order->id, $request->validated()['accessory']);
+    }
+    
     return redirect()->route('order.index');
   }
 
@@ -68,11 +82,25 @@ class OrderController extends Controller
   public function edit(Order $order): View
   {
     return view('web/order/edit', [
-      'order'       => $order,
-      'orderTypes'  => OrderType::all(),
+      'order'        => $order,
+      'diagnoses'    => Diagnose::where('type_id', $order->type_id)->get(),
+      'orderTypes'   => OrderType::all(),
+      'orderStatuses'=> OrderStatus::all(),
     ]);
   }
 
+  /**
+   * Show the form for editing every single detail of specified resource.
+   */
+  public function correct(Order $order): View
+  {
+    return view('web/order/correct', [
+      'order'        => $order,
+      'diagnoses'    => Diagnose::where('type_id', $order->type_id)->get(),
+      'orderTypes'   => OrderType::all(),
+      'orderStatuses'=> OrderStatus::all(),
+    ]);
+  }
   /**
    * Update the specified resource in storage.
    */
@@ -82,6 +110,7 @@ class OrderController extends Controller
 
     return redirect()->route('order.index');
   }
+
 
   /**
    * Remove the specified resource from storage.

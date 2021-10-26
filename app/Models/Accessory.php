@@ -10,11 +10,13 @@ class Accessory extends Model
   use HasFactory;
 
   protected $fillable = [
-    'name', 'order_id', 'image_url', 'description',
+    'name', 'order_id','manufacturer', 'image_url', 'description',
   ];
 
   public function order()
   {
     return $this->belongsTo(Order::class);
   }
+
+  
 }

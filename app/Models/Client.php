@@ -12,7 +12,7 @@ class Client extends Model
   protected $fillable = [
     'first_name', 'middle_name', 'last_name',
     'phone_number', 'email', 'address',
-    'description', 'type_id'
+    'description', 'type_id', 'image_url'
   ];
 
   public function orders()
@@ -28,5 +28,10 @@ class Client extends Model
   public function getFullNameAttribute()
   {
     return "{$this->first_name} {$this->last_name}";
+  }
+
+  public static function getNextId(): int
+  {
+    return Client::orderBy('id','desc')->first()->id + 1;
   }
 }

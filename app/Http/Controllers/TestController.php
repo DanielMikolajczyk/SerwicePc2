@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -9,10 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
+  public $sidebarActive = 'Akcesoria';
+
   public function test()
   {
-    Storage::disk('local')->put('example.txt', 'Contents');
-    return view('tes/test');
+    $order = Order::findOrFail(65);
+    dd($order->diagnoses->first()->id);
   }
 
   public function testPost(Request $request)

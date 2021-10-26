@@ -37,7 +37,7 @@ class User extends Authenticatable
 
   public function isAdmin(): bool
   {
-    return $this->role->name == 'Admin';
+    return $this->role->name === 'Admin';
   }
 
   public function checkPermission($name)

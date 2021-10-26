@@ -27,11 +27,12 @@ class StoreClientRequest extends FormRequest
       'first_name'       => 'required|string|max:32',
       'middle_name'      => 'required|string|max:32',
       'last_name'        => 'required|string|max:32',
-      'phone_number'     => 'required|string|unique,clients,phone_number',
+      'phone_number'     => 'required|string|unique:clients,phone_number',
       'email'            => 'required|email',
       'address'          => 'required|string|max:64',
       'description'      => 'required|string|max:1024',
-      'type_id'          => 'required|exists:client_types,id'
+      'type_id'          => 'required|exists:client_types,id',
+      'image'            => 'file|max:5120'
     ];
   }
 }

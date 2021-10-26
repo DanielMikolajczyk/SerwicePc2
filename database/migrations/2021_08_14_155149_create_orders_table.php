@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
           $table->date('deadline');
           $table->text('issue_description');
           $table->text('visual_description');
+          $table->text('comment')->nullable();
           $table->timestamps();
 
           $table->foreign('type_id')->references('id')->on('order_types');

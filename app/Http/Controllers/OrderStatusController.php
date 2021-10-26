@@ -18,14 +18,16 @@ class OrderStatusController extends Controller
 
   public function __construct(OrderStatusService $orderStatusService)
   {
-    $this->authorizeResource(OrderStatus::class, 'orderStatus');
+    $this->authorizeResource(OrderStatus::class, 'orderstatus');
     $this->orderStatusService = $orderStatusService;
   }
 
   public function index(): View
   {
+    $orderStatuses = OrderStatus::all();
+
     return view('web/orderStatus/index', [
-      'orderStatuses' => OrderStatus::all()
+      'orderStatuses' => $orderStatuses 
     ]);
   }
 

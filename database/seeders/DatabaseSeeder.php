@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
       OrderStatusSeeder::class,
       OrderTypeSeeder::class,
       OrderSeeder::class,
-      AccessorySeeder::class
+      AccessorySeeder::class,
+      DiagnoseSeeder::class
     ]);
   }
 }
