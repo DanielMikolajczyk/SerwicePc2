@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Departament;
 use App\Models\Order;
 use File;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Image;
+use Str;
 
 class OrderService
 {
@@ -48,11 +50,15 @@ class OrderService
   }
     
   /*
-  * Generate new order code.
+  * Generate new order code, by incrementing code number of the last order in the departament.
   */
-  public function generateOrderCode(): int
+  public function generateOrderCode(): string
   {
-    return Order::all()->sortByDesc('id')->first()->id;
+    $departamentId = auth()->user()->actual_departament;
+    $departamentCode = Departament::where('id',$departamentId)->first()->code;
+    $lastCode = Order::where('code','like',$departamentCode.'%')->orderBy('created_at','desc')->first()->code;
+    $newCode = Str::remove($departamentCode,$lastCode) + 1;
+    return $departamentCode . $newCode;
   }
 
   /*
@@ -102,7 +108,7 @@ class OrderService
   {
     //If there is no filters return default view
     if(empty($request->validated())){
-      return Order::orderBy('deadline','desc')->paginate(25);
+      return Order::orderBy('updated_at','desc')->paginate(25);
     }
     
     $orders = Order::when($request->query('code'), function($query,$value){
@@ -120,7 +126,7 @@ class OrderService
       return $query->whereHas('client',function(Builder $query) use ($fullName){
         return $query->where('first_name',$fullName[0])->where('last_name',$fullName[1]);
       });
-    })->orderBy('deadline','desc')
+    })->orderBy('updated_at','desc')
       ->paginate(25);
 
     return $orders;

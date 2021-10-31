@@ -12,6 +12,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DiagnoseController;
 use App\Http\Controllers\AccessoryController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', [App\Http\Controllers\TestController::class, 'test']);
@@ -30,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('permission', PermissionController::class);
   Route::resource('diagnose', DiagnoseController::class);
   Route::resource('accessory', AccessoryController::class)->except(['create,store']);
+  Route::resource('profile', ProfileController::class);
   
 });
 

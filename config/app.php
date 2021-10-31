@@ -165,6 +165,7 @@ return [
     /*
     * Package Service Providers...
     */
+    RealRashid\SweetAlert\SweetAlertServiceProvider::class,
     Intervention\Image\ImageServiceProvider::class,
 
     /*
@@ -191,6 +192,7 @@ return [
 
   'aliases' => [
 
+    'Alert' => RealRashid\SweetAlert\Facades\Alert::class,  //realrashid/sweet-alert
     'App' => Illuminate\Support\Facades\App::class,
     'Arr' => Illuminate\Support\Arr::class,
     'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -210,7 +212,7 @@ return [
     'Gate' => Illuminate\Support\Facades\Gate::class,
     'Hash' => Illuminate\Support\Facades\Hash::class,
     'Http' => Illuminate\Support\Facades\Http::class,
-    'Image' => Intervention\Image\Facades\Image::class,
+    'Image' => Intervention\Image\Facades\Image::class,     //intervention/image
     'Lang' => Illuminate\Support\Facades\Lang::class,
     'Log' => Illuminate\Support\Facades\Log::class,
     'Mail' => Illuminate\Support\Facades\Mail::class,

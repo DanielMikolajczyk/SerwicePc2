@@ -6,7 +6,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-
+use Alert;
 
 class TestController extends Controller
 {
@@ -14,8 +14,7 @@ class TestController extends Controller
 
   public function test()
   {
-    $order = Order::findOrFail(65);
-    dd($order->diagnoses->first()->id);
+    
   }
 
   public function testPost(Request $request)

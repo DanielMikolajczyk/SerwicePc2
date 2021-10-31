@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Services\OrderService;
 use App\Services\ClientService;
+use Alert;
 
 class OrderController extends Controller
 {
@@ -29,7 +30,7 @@ class OrderController extends Controller
   public function index(FilterOrderRequest $request): View
   {
     $orders = $this->orderService->filterIndexPage($request);
-
+    
     return view('web/order/index', [
       'orders'        => $orders,
       'orderStatuses' => OrderStatus::all(),
@@ -63,7 +64,7 @@ class OrderController extends Controller
       $accessoryService->create($order->id, $request->validated()['accessory']);
     }
     
-    return redirect()->route('order.index');
+    return redirect()->route('order.index')->with('toast_success','Pomyślnie utworzono zamówienie');
   }
 
   /**
@@ -108,7 +109,7 @@ class OrderController extends Controller
   {
     $this->orderService->update($order->id, $request->validated());
 
-    return redirect()->route('order.index');
+    return redirect()->route('order.edit',$order->id)->with('toast_success','Pomyślnie edytowano zamówienie');
   }
 
 
@@ -119,6 +120,6 @@ class OrderController extends Controller
   {
     $this->orderService->destroy($order->id);
 
-    return redirect()->route('order.index');
+    return redirect()->route('order.index')->with('toast_success','Pomyślnie usunięto zamówienie');
   }
 }

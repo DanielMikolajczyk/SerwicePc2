@@ -35,6 +35,11 @@ class User extends Authenticatable
     return $this->belongsTo(Departament::class);
   }
 
+  public function profile()
+  {
+    return $this->hasOne(Profile::class);
+  }
+
   public function isAdmin(): bool
   {
     return $this->role->name === 'Admin';

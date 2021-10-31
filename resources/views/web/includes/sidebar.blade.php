@@ -3,7 +3,7 @@
     <ul class="flex flex-col text-left">
       <x-sidebar.li icon="fas fa-chart-line" name="Dashboard"
         :active="request()->routeIs('dashboard.*') ? 'active' : ''" />
-      <x-sidebar.li icon="fas fa-user" name="Profil" 
+      <x-sidebar.li icon="fas fa-user" name="Profil" :href="route('profile.show',auth()->user()->id)" 
         :active="request()->routeIs('profile.*') ? 'active' : ''" />
       <x-sidebar.li-dropdown icon="fas fa-scroll" name="Zamówienia"
         :active="request()->routeIs('order*') || request()->routeIs('accessory.*') || request()->routeIs('diagnose.*') ? 'active' : ''">

@@ -57,7 +57,7 @@ class AccessoryController extends Controller
   {
     $this->accessoryService->update($accessory->id, $request->validated());
 
-    return redirect()->route('accessory.index');
+    return redirect()->route('accessory.edit',$accessory->id)->with('toast_success','Pomyślnie edytowano akcesorium');
   }
 
   /**
@@ -67,6 +67,6 @@ class AccessoryController extends Controller
   {
     $this->accessoryService->delete($accessory->id);
 
-    return redirect()->route('accessory.index');
+    return redirect()->route('accessory.index')->with('toast_success','Pomyślnie usunięto akcesorium');
   }
 }
